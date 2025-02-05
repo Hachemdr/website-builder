@@ -504,10 +504,10 @@ export const Testimonials = {
           </h2>
           <p className="text-xl">Hear from our happy customers.</p>
         </div>
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-12 text-black">
           {["John Doe", "Jane Smith"].map((name, i) => (
             <div key={i} className="bg-white rounded-2xl p-8 shadow-lg">
-              <p className="text-lg italic">
+              <p className="text-lg italic text-black">
                 "Amazing experience working with this team!"
               </p>
               <p className="mt-4 font-semibold">- {name}</p>
@@ -655,7 +655,7 @@ export const Accordion = {
             Click to Expand
           </button>
           {open && (
-            <div className="p-4 bg-white">This is the accordion content.</div>
+            <div className="p-4 bg-white text-black">This is the accordion content.</div>
           )}
         </div>
       </div>
@@ -757,7 +757,7 @@ export const Tabs = {
             </button>
           ))}
         </div>
-        <div className="p-4 mt-4 bg-white">
+        <div className="p-4 mt-4 bg-white text-black">
           <p>Content for {tabs[active]}</p>
         </div>
       </div>
@@ -800,7 +800,7 @@ export const Card = {
   Component: ({ bgColor, textColor }) => (
     <div style={{ backgroundColor: bgColor, color: textColor }} className="p-6">
       <div className="bg-white rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-semibold mb-2">Card Title</h3>
+        <h3 className="text-xl font-semibold mb-2 text-black">Card Title</h3>
         <p className="text-gray-600">
           This is a simple card component with customizable styles.
         </p>

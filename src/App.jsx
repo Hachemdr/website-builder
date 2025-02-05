@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import * as Components from "./assets/components/Components";
-import {
-  Menu,
-  ChevronDown,
-  Mail,
-  Phone,
-  MapPin,
-  Facebook,
-  Twitter,
-  Instagram,
-  ArrowRight,
-} from "lucide-react";
-
+import SplashScreen from "./assets/components/SplashScreen"; // Import the splash screen component
 
 export default function App() {
   const [selectedComponent, setSelectedComponent] = useState(null);
-  const [bgColor, setBgColor] = useState("#3B82F6");
+  const [bgColor, setBgColor] = useState("#2196F3");
   const [activeTab, setActiveTab] = useState("preview");
-  const [textColor, setTextColor] = useState("#fff");
-    
+  const [textColor, setTextColor] = useState("#ffffff");
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 100); // Set your desired loading time
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSelect = (componentKey) => {
     setSelectedComponent(Components[componentKey]);
@@ -27,19 +25,23 @@ export default function App() {
 
   // Convert hex color to RGB style
   const hexToRgbStyle = (hex) => {
-    // Remove the # if present
     hex = hex.replace("#", "");
-
-    // Parse the hex values
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
-
     return `rgb(${r}, ${g}, ${b})`;
   };
 
+  // Filter components based on search term
+  const filteredComponents = Object.keys(Components).filter((key) =>
+    Components[key].name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Show the splash screen while loading */}
+      {loading && <SplashScreen />}
+
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -53,8 +55,18 @@ export default function App() {
           <div className="col-span-3">
             <div className="bg-white rounded-lg shadow p-4">
               <h2 className="text-lg font-semibold mb-4">Components</h2>
-              <div className="space-y-2">
-                {Object.keys(Components).map((key) => (
+
+              {/* Search Bar */}
+              <input
+                type="text"
+                placeholder="Search components..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+              />
+
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {filteredComponents.slice(0, 20).map((key) => (
                   <button
                     key={key}
                     className={`w-full p-2 text-left rounded-lg transition-colors ${
@@ -164,14 +176,13 @@ export default function App() {
           </div>
         </div>
       </div>
-      {/* THIS IS TEST SECTION */}
-      
 
-
-
-      {/* <div className="bg-blue-500 text-white p-4 text-center">
-        Tailwind is working!
-      </div> */}
+      {/* Footer */}
+      <footer className="bg-blue-500 text-white fixed bottom-0 w-full py-2 text-center">
+        <div >
+          <p>&copy; {new Date().getFullYear()} Hachem Drissi. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
