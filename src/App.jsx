@@ -14,7 +14,7 @@ export default function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 100); // Set your desired loading time
+    }, 3000); // Set your desired loading time
 
     return () => clearTimeout(timer);
   }, []);
