@@ -10,6 +10,7 @@ export default function App() {
   const [textColor, setTextColor] = useState("#ffffff");
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLaptop, setIsLaptop] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -17,6 +18,15 @@ export default function App() {
     }, 3000); // Set your desired loading time
 
     return () => clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLaptop(window.innerWidth >= 900);
+    };
+    checkScreenSize(); // Initial check
+    window.addEventListener("resize", checkScreenSize); // Update on resize
+
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   const handleSelect = (componentKey) => {
@@ -37,7 +47,7 @@ export default function App() {
     Components[key].name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (
+  return isLaptop ? (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Show the splash screen while loading */}
       {loading && <SplashScreen />}
@@ -183,6 +193,11 @@ export default function App() {
           <p>&copy; {new Date().getFullYear()} Hachem Drissi. All rights reserved.</p>
         </div>
       </footer>
+    </div>
+  ) : (
+    <div style={{ textAlign: "center", padding: "50px" }}>
+      <h1 className="text-2xl font-bold text-gray-900">This website is only accessible on laptops.</h1>
+      <h2 className="text-lg font-semibold mb-4">We are working on it!!!</h2>
     </div>
   );
 }
